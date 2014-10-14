@@ -19,6 +19,7 @@ class PlayGame
   attr_reader :banker_cards, :player_cards
   def initialize
     @bets_on_table = {:b_bet => 0,:p_bet => 0, :tie => 0, :dragon => 0, :panda => 0}
+    @outcomes = {:b_bet => false,:p_bet => false, :tie => false, :dragon => false, :panda => false}
     @banker_cards = []
     @player_cards = []
     @b_score = 0
@@ -88,9 +89,6 @@ class PlayGame
   def banker_hit_chart(shoe)
     pv = VALUES[@player_cards[2]]
     c = calculate_score(@banker_cards)
-    # p "player has #{pv}"
-    # p "banker has 2 card #{c}"
-
     (c == 3 && pv != 8) ? hit_banker(shoe) :
     (c == 4 && (2..7).include?(pv)) ? hit_banker(shoe) :
     (c == 5 && (4..7).include?(pv)) ? hit_banker(shoe) :
@@ -105,8 +103,8 @@ class PlayGame
   end
 
   def determine_outcome
-    @p_score > @b_score ? "Player" :
-    @b_score > @p_score ? "Banker" : "TIE"
+    @p_score > @b_score ? @outcomes[:p_bet] = true :
+    @b_score > @p_score ? @outcomes[:b_bet] = true : @outcomes[:tie] = true
   end
 
   def dragon?
@@ -118,12 +116,12 @@ class PlayGame
   end
 
   def winning_bets
-    if determine_outcome == "Player"
-      panda?
-    elsif determine_outcome == "Banker"
-      dragon?
-    else    # TIE
-
+    if @outcomes[:p_bet] = true
+      @outcomes[:panda] = true if panda?
+    elsif @outcomes[:b_bet] = true
+      @outcomes[:dragon] = true if dragon?
+    else
+      @outcomes[:tie] = true
     end
   end
 end
