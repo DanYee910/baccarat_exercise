@@ -19,8 +19,8 @@ class PlayGame
   attr_reader :banker_cards, :player_cards
   def initialize
     @bets_on_table = {:b_bet => 0,:p_bet => 0, :tie => 0, :dragon => 0, :panda => 0}
-    @banker_cards = ["2", "2"]
-    @player_cards = ["K", "A", "A"]
+    @banker_cards = []
+    @player_cards = []
     @b_score = 0
     @p_score = 0
   end
@@ -51,15 +51,12 @@ class PlayGame
   def deal_cards(shoe)
     hit_player(shoe)
     hit_banker(shoe)
-    sleep(0.5)
     hit_player(shoe)
-    sleep(0.25)
     hit_banker(shoe)
-    if natural?
-
+    if !natural?
+      hit_third_player?(shoe)
+      hit_third_banker?(shoe)
     end
-    hit_third_player?
-    hit_third_banker?
   end
 
   def hit_banker(shoe)
@@ -84,7 +81,7 @@ class PlayGame
         hit_banker(shoe)
       end
     else
-      banker_hit_chart
+      banker_hit_chart(shoe)
     end
   end
 
@@ -120,15 +117,18 @@ class PlayGame
     @player_cards.size == 3 && calculate_score(@player_cards) == 8
   end
 
-  def resolve_base_bets
+  def winning_bets
+    if determine_outcome == "Player"
+      panda?
+    elsif determine_outcome == "Banker"
+      dragon?
+    else    # TIE
 
-  end
-
-  def resolve_bonus_bets
-
+    end
   end
 end
 
+system('clear')
 s = CardShoe.new(2)
 g = PlayGame.new
 # g.view_bets
@@ -138,8 +138,13 @@ g = PlayGame.new
 # p g.natural?
 # p g.hit_third_player?
 # p g.determine_outcome
+# p g.banker_cards
+# g.banker_hit_chart(s)
+# # p g.hit_banker(s)
+g.deal_cards(s)
+p "player"
+p g.player_cards
+p "banker"
 p g.banker_cards
-g.banker_hit_chart(s)
-# p g.hit_banker(s)
-p g.banker_cards
-# p g.player_cards
+
+
