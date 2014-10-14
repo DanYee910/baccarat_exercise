@@ -6,6 +6,7 @@
 # 4.the shoe needs a method to remove a single card from the front
 
 CARD_VALS = "23456789TJQKA"
+VALUES = {"2"=> 2, "3"=> 3, "4"=> 4, "5"=> 5, "6"=> 6, "7"=> 7, "8"=> 8, "9"=> 9, "10"=> 0, "J"=> 0, "Q"=> 0, "K"=> 0, "A"=> 1}
 
 class CardShoe
   attr_reader :shoe
@@ -36,13 +37,14 @@ class CardShoe
 end
 
 #driver tests
-shoe = CardShoe.new(2)
-p shoe.shoe
-p shoe.shoe.count == 104
-shoe.shoe.pop(60)
-p shoe.shoe.count
-shoe.shoe_running_low
-p shoe.shoe.count
-p shoe.shoe.count("K") == 8
-p shoe.shoe.count("3") == 8
-p shoe.shoe.count("10") == 8
+# shoe = CardShoe.new(2)
+# # p shoe.shoe
+# p shoe.deal_one_card
+# p shoe.shoe.count == 104
+# shoe.shoe.pop(60)
+# p shoe.shoe.count
+# shoe.shoe_running_low
+# p shoe.shoe.count
+# p shoe.shoe.count("K") == 8
+# p shoe.shoe.count("3") == 8
+# p shoe.shoe.count("10") == 8
