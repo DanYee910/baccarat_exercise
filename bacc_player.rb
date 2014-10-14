@@ -31,6 +31,8 @@ class Player
   end
 end
 
-a = Player.new
+# a = Player.new
 # p a.deposit(5000)
+# a.deposit(2000)
+# a.deposit(100)
 # a.total_in_for
