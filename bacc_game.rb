@@ -20,7 +20,7 @@ class PlayGame
   def initialize
     @bets_on_table = {:b_bet => 0,:p_bet => 0, :tie => 0, :dragon => 0, :panda => 0}
     @banker_cards = ["2", "2"]
-    @player_cards = ["3", "A", "6"]
+    @player_cards = ["K", "A", "A"]
     @b_score = 0
     @p_score = 0
   end
@@ -84,41 +84,22 @@ class PlayGame
         hit_banker(shoe)
       end
     else
-      #hit chart
-
+      banker_hit_chart
     end
   end
 
   def banker_hit_chart(shoe)
     pv = VALUES[@player_cards[2]]
     c = calculate_score(@banker_cards)
-    case c
-    when c == 3
-      hit_banker(shoe) if pv != 8
-    when c == 4
-      hit_banker(shoe) if (2..7).include?(pv)
-    when c == 5
-      hit_banker(shoe) if (4..7).include?(pv)
-    when c == 6
-      hit_banker(shoe) if (6..7).include?(pv)
-    when c > 6
-    else
-      hit_banker(shoe)
-    end
+    # p "player has #{pv}"
+    # p "banker has 2 card #{c}"
+
+    (c == 3 && pv != 8) ? hit_banker(shoe) :
+    (c == 4 && (2..7).include?(pv)) ? hit_banker(shoe) :
+    (c == 5 && (4..7).include?(pv)) ? hit_banker(shoe) :
+    (c == 6 && (6..7).include?(pv)) ? hit_banker(shoe) :
+    c < 3 ? hit_banker(shoe) : nil;
   end
-
-
-# grade = gets.chomp
-# case grade
-# when "A"
-#   puts 'Well done!'
-# when "B"
-#   puts 'Try harder!'
-# when "C"
-#   puts 'You need help!!!'
-# else
-#   puts "You just making it up!"
-# end
 
   def calculate_score(p_or_b)
     temp = 0
@@ -157,7 +138,8 @@ g = PlayGame.new
 # p g.natural?
 # p g.hit_third_player?
 # p g.determine_outcome
-# g.banker_hit_chart
+p g.banker_cards
+g.banker_hit_chart(s)
 # p g.hit_banker(s)
-# p g.banker_cards
+p g.banker_cards
 # p g.player_cards
