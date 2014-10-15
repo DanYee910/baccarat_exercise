@@ -12,8 +12,7 @@ pseudocode
 
 require_relative 'bacc_player.rb'
 require_relative 'bacc_shoe.rb'
-
-PAYOUTS = {"bet" => 1, "tie" => 9, "dragon" => 40, "panda" => 25}
+require_relative 'bacc_resolveBets.rb'
 
 class PlayGame
   attr_reader :banker_cards, :player_cards
@@ -32,7 +31,7 @@ class PlayGame
     which_side = gets.chomp
     puts "How much would you like to bet?"
     wager = gets.chomp
-    puts "You are betting $#{wager} on #{which}"
+    puts "You are betting $#{wager} on #{which_side}"
     @bets_on_table[:b_bet] = wager if which_side == "B"
     @bets_on_table[:p_bet] = wager if which_side == "P"
     puts "Please bet at least 0 on the TIE bonus bet"
@@ -43,6 +42,8 @@ class PlayGame
     @bets_on_table[:panda] = gets.chomp
     sleep(0.5)
     puts "All bets placed, ready to deal!"
+    p @bets_on_table.values.map! {|bet| bet.to_i}
+    #.values.inject(:+)
   end
 
   def view_bets
@@ -129,9 +130,16 @@ end
 system('clear')
 s = CardShoe.new(2)
 g = PlayGame.new
+a = Player.new
+p a.deposit(5000)
+# a.deposit(2000)
+# a.deposit(100)
+# a.total_in_for
+
 # g.view_bets
-# g.ask_for_bets
+p a.place_bets_on_table(g.ask_for_bets)
 # g.view_bets
+a.money
 
 # p g.natural?
 # p g.hit_third_player?

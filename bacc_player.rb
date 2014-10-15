@@ -26,8 +26,12 @@ class Player
     puts "You have deposited a total of $#{@total_deposit}."
   end
 
-  def bet
+  def place_bets_on_table(num)
+    @money -= num
+  end
 
+  def collect_wins(num)
+    @money += num
   end
 end
 
